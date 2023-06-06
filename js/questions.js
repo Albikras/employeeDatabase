@@ -1,4 +1,4 @@
-const mainMenu = [
+const menu = [
   {
     type: "list",
     name: "wwjd",
@@ -14,63 +14,57 @@ const mainMenu = [
       "Quit",
     ],
   },
+];
+
+const addDept = [
+  {
+    type: "input",
+    name: "depts",
+    message: "Add deparetment name",
+  },
+];
+
+const addingRole = [
+  {
+    type: "input",
+    name: "additionRoles",
+    message: "Add new role name",
+  },
+  {
+    type: "input",
+    name: "salary",
+    message: "Add salary for new role",
+  },
+  {
+    type: "input",
+    name: "depts",
+    message: "add new department name",
+  },
+];
+
+const addingEmployee = [
   {
     type: "input",
     name: "firstName",
-    message: "What is the new employees first name",
-    validate: async (firstName) => {
-      if (firstName == "") {
-        return "Please enter a valid first name";
-      }
-      return true;
-    },
-    when: (answers) => answers.wwjd === "Add Employee",
+    message: "What is the new employee's first name",
   },
   {
     type: "input",
     name: "lastName",
-    message: "What is the new employees last name",
-    validate: async (lastName) => {
-      if (lastName == "") {
-        return "Please enter a valid last name";
-      }
-      return true;
-    },
-    when: (answers) => answers.wwjd === "Add Employee",
+    message: "What is the new employee's last name",
   },
   {
     type: "list",
-    name: "newRole",
-    message: "What is the new employees Role",
-    choices: [
-      "Sales Lead",
-      "Salesperson",
-      "Lead Engineer",
-      "Software Engineer",
-      "Account Manager",
-      "Accountant",
-      "Legal Team Lead",
-      "Lawyer",
-      "Customer Service",
-    ],
-    when: (answers) => answers.wwjd === "Add Employee",
+    name: "additionRoles",
+    message: "What is the new employees role",
+    choices: [], // here is where you will pass an instance of your imported function called populateChoicesForRoles
   },
   {
     type: "list",
-    name: "manager",
-    message: "Who is the employee's manager?",
-    choices: [
-      "None",
-      "John Doe",
-      "Mike Chan",
-      "Ashley Rodriguez",
-      "Kevin Tupik",
-      "Kunal Singh",
-      "Malia Brown",
-    ],
-    when: (answers) => answers.wwjd === "Add Employee",
-  },
-  {
-    type: "",
+    name: "boss",
+    message: "Who is the new employees manager",
+    choices: [],
   },
 ];
+
+module.exports = { menu, addingRole, addDept, addingEmployee };
