@@ -3,7 +3,14 @@ const util = require("util");
 const { menu, addingEmployee } = require("./js/questions");
 const mysql = require("mysql2");
 const cTable = require("console.table");
-const { log } = require("easy-table");
+
+const addDepartment = require("./functions/addDepartment.js");
+const addEmployee = require("./functions/addEmployee.js");
+const updateRole = require("./functions/updateRole.js");
+const addRole = require("./functions/addRole.js");
+const viewDepartment = require("./functions/viewDepartment.js");
+const viewEmployees = require("./functions/viewEmployees.js");
+const viewRoles = require("./functions/viewRoles.js");
 
 const mainPromise = util.promisify(mainMenu);
 
@@ -38,10 +45,10 @@ function mainMenu() {
         addRole(db);
         break;
       case "View All Departments":
-        viewDept(db);
+        viewDepartment(db);
         break;
       case "Add Department":
-        addDept(db);
+        addDepartment(db);
         break;
       case "Quit":
         console.log("Goodbye!!");
@@ -49,44 +56,5 @@ function mainMenu() {
     }
   });
 }
-
-function viewEmployees(db) {
-  db.promise()
-    .query("SELECT * FROM employee")
-    .then(([rows, fields]) => {
-      console.table(rows);
-    });
-  //let viewWorkers = util.promisify(db.query("Select * from employee"));
-}
-
-function addEmployee() {
-  inquirer.prompt(addingEmployee).then(answers =>{
-    // call viewAllRoles function here, and 'extract' the title property from each role object
-
-    //...
-    // then pass that array a
-  });
-}
-function updateRole() {
-
-}
-function viewRoles(db) {
-  db.promise()
-    .query("SELECT * FROM role")
-    .then(([rows, fields]) => {
-      console.table(rows);
-    });
-}
-
-
-function addRole() {
-
-}
-function viewDept() {
-
-}
-function addDept() {
-
-}
-
 mainMenu();
+module.exports = db;
