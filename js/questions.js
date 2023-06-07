@@ -16,7 +16,7 @@ const menu = [
   },
 ];
 
-const addingEmployee = (testOne, testTwo) => [
+const addingEmployee = (RolesChoices, managerList) => [
   {
     type: "input",
     name: "firstName",
@@ -31,13 +31,13 @@ const addingEmployee = (testOne, testTwo) => [
     type: "list",
     name: "additionRoles",
     message: "What is the new employees role",
-    choices: testOne,
+    choices: RolesChoices,
   },
   {
     type: "list",
     name: "boss",
     message: "Who is the new employees manager",
-    choices: testTwo,
+    choices: managerList,
   },
 ];
 
