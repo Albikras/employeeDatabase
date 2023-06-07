@@ -16,33 +16,7 @@ const menu = [
   },
 ];
 
-const addDept = [
-  {
-    type: "input",
-    name: "depts",
-    message: "Add deparetment name",
-  },
-];
-
-const addingRole = [
-  {
-    type: "input",
-    name: "additionRoles",
-    message: "Add new role name",
-  },
-  {
-    type: "input",
-    name: "salary",
-    message: "Add salary for new role",
-  },
-  {
-    type: "input",
-    name: "depts",
-    message: "add new department name",
-  },
-];
-
-const addingEmployee = [
+const addingEmployee = (testOne, testTwo) => [
   {
     type: "input",
     name: "firstName",
@@ -57,14 +31,61 @@ const addingEmployee = [
     type: "list",
     name: "additionRoles",
     message: "What is the new employees role",
-    choices: [], // here is where you will pass an instance of your imported function called populateChoicesForRoles
+    choices: testOne,
   },
   {
     type: "list",
     name: "boss",
     message: "Who is the new employees manager",
-    choices: [],
+    choices: testTwo,
   },
 ];
 
-module.exports = { menu, addingRole, addDept, addingEmployee };
+const addedRole = [
+  {
+    type: "input",
+    name: "newtitle",
+    message: "What is the title of the new role you would like to add?",
+  },
+  {
+    type: "input",
+    name: "newSalary",
+    message: "What is the new salary for your new role?",
+  },
+  {
+    type: "input",
+    name: "newId",
+    message: "What is the new department id for your new role?",
+  },
+];
+
+const addDept = [
+  {
+    type: "input",
+    name: "newDepartment",
+    message: "What is the new department?",
+  },
+];
+
+const updatingRole = (employ, roller) => [
+  {
+    type: "list",
+    name: "employeeList",
+    message: "Select and employee to update there role",
+    choices: employ,
+  },
+  {
+    type: "list",
+    name: "roleslist",
+    message: "Select which role to update too",
+    choices: roller,
+  },
+];
+
+module.exports = {
+  menu,
+  updatingRole,
+  addDept,
+  addingEmployee,
+  addedRole,
+};

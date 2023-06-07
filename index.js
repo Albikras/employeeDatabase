@@ -1,60 +1,119 @@
 const inquirer = require("inquirer");
-const util = require("util");
-const { menu, addingEmployee } = require("./js/questions");
-const mysql = require("mysql2");
-const cTable = require("console.table");
+const {
+  menu,
+  addingEmployee,
+  addedRole,
+  addDept,
+  updatingRole,
+} = require("./js/questions");
+const mysql = require("mysql2/promise");
+const { printTable } = require("console-table-printer");
+const titlePage = require("./title/title.js");
 
-const addDepartment = require("./functions/addDepartment.js");
-const addEmployee = require("./functions/addEmployee.js");
-const updateRole = require("./functions/updateRole.js");
-const addRole = require("./functions/addRole.js");
-const viewDepartment = require("./functions/viewDepartment.js");
-const viewEmployees = require("./functions/viewEmployees.js");
-const viewRoles = require("./functions/viewRoles.js");
+console.log(titlePage);
 
-const mainPromise = util.promisify(mainMenu);
-
-function mainMenu() {
-  const db = mysql.createConnection(
+async function mainMenu() {
+  const db = await mysql.createConnection(
     {
       host: "localhost",
-      // MySQL username,
       user: "root",
-      // TODO: Add MySQL password here
       password: "pass",
       database: "employed",
     },
     console.log(`Connected to the employed database.`)
   );
 
-  inquirer.prompt(menu).then((answers) => {
-    switch (answers.wwjd) {
-      case "View All Employees":
-        viewEmployees(db);
-        break;
-      case "Add Employee":
-        addEmployee(db);
-        break;
-      case "Update Employee Role":
-        updateRole(db);
-        break;
-      case "View All Roles":
-        viewRoles(db);
-        break;
-      case "Add Role":
-        addRole(db);
-        break;
-      case "View All Departments":
-        viewDepartment(db);
-        break;
-      case "Add Department":
-        addDepartment(db);
-        break;
-      case "Quit":
-        console.log("Goodbye!!");
-        return process.exit();
-    }
-  });
+  const answers = await inquirer.prompt(menu);
+
+  switch (answers.wwjd) {
+    case "View All Employees":
+      viewEmployees(db);
+      break;
+    case "Add Employee":
+      addEmployee(db);
+      break;
+    case "Update Employee Role":
+      updateRole(db);
+      break;
+    case "View All Roles":
+      viewRoles(db);
+      break;
+    case "Add Role":
+      addRole(db);
+      break;
+    case "View All Departments":
+      viewDepartment(db);
+      break;
+    case "Add Department":
+      addDepartment(db);
+      break;
+    case "Quit":
+      console.log("Goodbye!!");
+      return process.exit();
+  }
 }
+
+async function viewEmployees(db) {
+  const [view] = await db.query(
+    "SELECT employee.id AS id, CONCAT(employee.first_name,' ',employee.last_name) AS name, role.title AS title, department.name AS department, role.salary AS salary FROM role INNER JOIN "
+  );
+  printTable(view);
+  await mainMenu();
+}
+
+async function viewDepartment(db) {
+  const [view] = await db.query("SELECT * FROM department");
+  printTable(view);
+  await mainMenu();
+}
+
+async function viewRoles(db) {
+  const [view] = await db.query("SELECT * FROM role");
+  printTable(view);
+  await mainMenu();
+}
+
+async function addEmployee(db) {
+  const [roles] = await db.query("SELECT id AS value, title AS name FROM role");
+  const [managers] = await db.query(
+    "SELECT first_name AS name, id AS value FROM EMPLOYEE"
+  );
+  let managersArray = [{ value: null, name: "None" }, ...managers];
+
+  const answers = await inquirer.prompt(addingEmployee(roles, managersArray));
+  await db.query(
+    `INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES ('${answers.firstName}', '${answers.lastName}', '${answers.additionRoles}',${answers.boss})`
+  );
+  await viewEmployees(db);
+}
+
+async function addRole(db) {
+  const answers = await inquirer.prompt(addedRole);
+  await db.query(
+    `INSERT INTO role(title, salary, department_id) VALUES('${answers.newtitle}','${answers.newSalary}','${answers.newId}')`
+  );
+  await viewRoles(db);
+}
+
+async function addDepartment(db) {
+  const answers = await inquirer.prompt(addDept);
+  await db.query(
+    `INSERT INTO department(name) VALUES('${answers.newDepartment}')`
+  );
+  viewDepartment(db);
+}
+
+async function updateRole(db) {
+  const [employees] = await db.query(
+    'SELECT id as value, CONCAT(first_name," ", last_name) AS name FROM employee'
+  );
+  const [roles] = await db.query("SELECT id AS value, title AS name FROM role");
+
+  const answers = await inquirer.prompt(updatingRole(employees, roles));
+  await db.query(
+    `UPDATE employee SET role_id = ${answers.roleslist} WHERE id = ${answers.employeeList}`
+  );
+  await viewEmployees(db);
+}
+
 mainMenu();
-module.exports = db;
