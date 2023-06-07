@@ -51,7 +51,9 @@ async function mainMenu() {
 }
 
 async function viewRoles(db) {
-  const [view] = await db.query("SELECT ");
+  const [view] = await db.query(
+    "SELECT * FROM role LEFT JOIN department ON role.department_id = department.id"
+  );
   printTable(view);
   await mainMenu();
 }

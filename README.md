@@ -13,15 +13,17 @@
 
 ## Installation
 
-npm 
-node.js 
+npm
+node.js
 inquierer
 mysql2
 console-table-printer
 
 ## Usage
 
-![test](test)
+![code starting off](./images/code.png)
+![code table](./images/showingtable.png)
+![code questions filled out](./images/questions.png)
 
 ## Credits
 
@@ -40,7 +42,5 @@ This program is done under the license: [MIT License](https://choosealicense.com
 GitHub: https://github.com/Albikras
 
 If you want to reach me with additional question click my email link here: Krasniqi1287@gmail.com
-
-## Links
 
 ## Video
