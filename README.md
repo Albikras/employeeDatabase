@@ -44,3 +44,7 @@ GitHub: https://github.com/Albikras
 If you want to reach me with additional question click my email link here: Krasniqi1287@gmail.com
 
 ## Video
+
+
+https://github.com/Albikras/employeeDatabase/assets/124819029/d8204312-b26a-4f39-9075-742b193b7c4c
+
