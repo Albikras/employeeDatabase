@@ -51,7 +51,7 @@ async function mainMenu() {
 }
 
 async function viewRoles(db) {
-  const [view] = await db.query("SELECT * FROM role");
+  const [view] = await db.query("SELECT ");
   printTable(view);
   await mainMenu();
 }
